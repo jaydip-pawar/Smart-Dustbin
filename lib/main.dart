@@ -1,7 +1,9 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_dustbin/constants.dart';
+import 'package:smart_dustbin/provider/authentication_provider.dart';
 import 'package:smart_dustbin/screens/home_screen.dart';
 import 'package:smart_dustbin/provider/dusty_provider.dart';
 import 'package:smart_dustbin/screens/splash_screen.dart';
@@ -13,6 +15,9 @@ void main() {
       providers: [
         ChangeNotifierProvider(
           create: (_) => DustyProvider(),
+        ),
+        ChangeNotifierProvider(
+          create: (_) => AuthenticationProvider(),
         ),
       ],
       child: MyApp(),
@@ -45,6 +50,7 @@ class _MyAppState extends State<MyApp> {
       title: 'Smart Dusty',
       initialRoute: SplashScreen.id,
       routes: routes,
+      builder: EasyLoading.init(),
     );
   }
 }

@@ -20,12 +20,15 @@ class ScreenArguments {
 class DustbinClipper extends CustomClipper<Path> {
   Rect getApproximateClipRect(Size size) =>
       Rect.fromLTRB(0, 0, size.width, size.height);
+
   Path getClip(Size size) => CustomDustbin().getPath(size);
+
   bool shouldReclip(DustbinClipper _) => false;
 }
 
 class BinScreen extends StatefulWidget {
   static const String id = 'bin-screen';
+
   const BinScreen({Key? key}) : super(key: key);
 
   @override
@@ -35,7 +38,6 @@ class BinScreen extends StatefulWidget {
 class _BinScreenState extends State<BinScreen> {
   @override
   Widget build(BuildContext context) {
-
     final _dustyProvider = Provider.of<DustyProvider>(context);
 
     final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
@@ -68,9 +70,9 @@ class _BinScreenState extends State<BinScreen> {
                 child: StreamBuilder<Event>(
                   stream: database.onValue,
                   builder: (BuildContext context, AsyncSnapshot<Event> event) {
-
-                    if(event.hasData) {
-                      _dustyProvider.setStatus(event.data!.snapshot.value["level"]);
+                    if (event.hasData) {
+                      _dustyProvider
+                          .setStatus(event.data!.snapshot.value["level"]);
                     }
 
                     return Stack(
@@ -153,15 +155,15 @@ class _BinScreenState extends State<BinScreen> {
                                   child: Text(
                                     "Dustbin Details",
                                     style: TextStyle(
-                                      fontSize: 20,
-                                      fontWeight: FontWeight.bold
-                                    ),
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold),
                                   ),
                                 ),
                               ),
                               // SizedBox(height: 22),
                               Padding(
-                                padding: const EdgeInsets.only(left: 10, bottom: 5),
+                                padding:
+                                    const EdgeInsets.only(left: 10, bottom: 5),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -170,15 +172,12 @@ class _BinScreenState extends State<BinScreen> {
                                         Text(
                                           "Name: ",
                                           style: TextStyle(
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 18
-                                          ),
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 18),
                                         ),
                                         Text(
                                           args.name,
-                                          style: TextStyle(
-                                            fontSize: 18
-                                          ),
+                                          style: TextStyle(fontSize: 18),
                                         ),
                                       ],
                                     ),
@@ -188,15 +187,12 @@ class _BinScreenState extends State<BinScreen> {
                                         Text(
                                           "Number: ",
                                           style: TextStyle(
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 18
-                                          ),
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 18),
                                         ),
                                         Text(
                                           args.number.toString(),
-                                          style: TextStyle(
-                                            fontSize: 18
-                                          ),
+                                          style: TextStyle(fontSize: 18),
                                         ),
                                       ],
                                     ),
@@ -206,15 +202,12 @@ class _BinScreenState extends State<BinScreen> {
                                         Text(
                                           "Location: ",
                                           style: TextStyle(
-                                            fontWeight: FontWeight.w700,
-                                            fontSize: 18
-                                          ),
+                                              fontWeight: FontWeight.w700,
+                                              fontSize: 18),
                                         ),
                                         Text(
                                           args.location,
-                                          style: TextStyle(
-                                            fontSize: 18
-                                          ),
+                                          style: TextStyle(fontSize: 18),
                                         ),
                                       ],
                                     ),
@@ -225,14 +218,12 @@ class _BinScreenState extends State<BinScreen> {
                                           "Status: ",
                                           style: TextStyle(
                                               fontWeight: FontWeight.w700,
-                                              fontSize: 18
-                                          ),
+                                              fontSize: 18),
                                         ),
                                         Text(
-                                          _dustyProvider.status.toString() + " %",
-                                          style: TextStyle(
-                                              fontSize: 18
-                                          ),
+                                          _dustyProvider.status.toString() +
+                                              " %",
+                                          style: TextStyle(fontSize: 18),
                                         ),
                                       ],
                                     ),
@@ -273,6 +264,8 @@ class _BinScreenState extends State<BinScreen> {
               onPressed: () async {
                 if (await canLaunch(args.url)) {
                   launch(args.url);
+                } else {
+                  print("Its false");
                 }
               },
               child: Text("Go To Location",

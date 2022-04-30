@@ -2,6 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:smart_dustbin/constants.dart';
+import 'package:smart_dustbin/model/navigate_page.dart';
 import 'package:smart_dustbin/screens/home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
@@ -20,7 +21,7 @@ class _SplashScreenState extends State<SplashScreen> {
 
   timer() {
     Timer(Duration(seconds: 5),
-            () => Navigator.pushReplacementNamed(context, HomeScreen.id));
+            () => Navigator.pushReplacementNamed(context, NavigatePage.id));
   }
 
   @override

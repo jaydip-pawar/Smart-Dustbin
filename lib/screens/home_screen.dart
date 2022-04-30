@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
+import 'package:smart_dustbin/provider/authentication_provider.dart';
 import 'package:smart_dustbin/provider/dusty_provider.dart';
 import 'package:smart_dustbin/screens/bin_screen.dart';
 
@@ -17,6 +18,7 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     final _dustyProvider = Provider.of<DustyProvider>(context);
+    final authentication = Provider.of<AuthenticationProvider>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -26,6 +28,17 @@ class _HomeScreenState extends State<HomeScreen> {
             color: Colors.black,
           ),
         ),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: IconButton(
+              onPressed: () {
+                authentication.signOut(context);
+              },
+              icon: Icon(Icons.logout, color: Colors.black,),
+            ),
+          ),
+        ],
         backgroundColor: Colors.white,
         elevation: 2.0,
         centerTitle: true,
