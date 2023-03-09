@@ -1,5 +1,4 @@
 import 'package:firebase_database/firebase_database.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_dustbin/constants.dart';
@@ -36,19 +35,39 @@ class BinScreen extends StatefulWidget {
 }
 
 class _BinScreenState extends State<BinScreen> {
+
+  ValueNotifier<int> dustbinLevel = ValueNotifier<int>(0);
+
+  void _updateUI(BuildContext context) {
+    final _dustyProvider = Provider.of<DustyProvider>(context, listen: false);
+    _dustyProvider
+        .setStatus(dustbinLevel.value);
+  }
+
   @override
-  Widget build(BuildContext context) {
-    final _dustyProvider = Provider.of<DustyProvider>(context);
+  void didChangeDependencies() {
+
+    dustbinLevel.addListener(()=>_updateUI(context));
 
     final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
     String path = "Dustbin" + args.number.toString();
-    final database = FirebaseDatabase.instance.reference().child(path);
+    final database = FirebaseDatabase.instance.ref().child(path);
+    database.onValue.listen((event) {
+      dustbinLevel.value = (event.snapshot.value as Map)['level'].toInt();
+    });
+    super.didChangeDependencies();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final _dustyProvider = Provider.of<DustyProvider>(context);
+    final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
 
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
         title: Text(
-          "Dustbin",
+          args.name,
           style: TextStyle(
             color: Colors.black,
           ),
@@ -58,6 +77,7 @@ class _BinScreenState extends State<BinScreen> {
         elevation: 2.0,
       ),
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           SizedBox(height: 40),
           Center(
@@ -67,60 +87,46 @@ class _BinScreenState extends State<BinScreen> {
               child: ClipPath(
                 clipBehavior: Clip.antiAlias,
                 clipper: DustbinClipper(),
-                child: StreamBuilder<Event>(
-                  stream: database.onValue,
-                  builder: (BuildContext context, AsyncSnapshot<Event> event) {
-                    if (event.hasData) {
-                      _dustyProvider
-                          .setStatus(event.data!.snapshot.value["level"]);
-                    }
-
-                    return Stack(
+                child: Stack(
+                  children: [
+                    Column(
                       children: [
-                        Column(
-                          children: [
-                            Expanded(
-                                flex: (100 -
-                                        event.data!.snapshot.value["level"]
-                                            .toInt())
-                                    .toInt(),
-                                child: Container(color: Colors.blue[100])),
-                            Expanded(
-                                flex:
-                                    event.data!.snapshot.value["level"].toInt(),
-                                child: Container(color: Colors.blue)),
-                          ],
-                        ),
-                        Align(
-                            alignment: Alignment.center,
-                            child: CircularPercentIndicator(
-                              radius: width(context) * 0.3,
-                              lineWidth: 10.0,
-                              animation: true,
-                              percent: event.data!.snapshot.value["level"]
-                                      .toDouble() /
-                                  100,
-                              center: new Text(
-                                event.data!.snapshot.value["level"].toString() +
-                                    "%",
-                                style: new TextStyle(
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 20.0),
-                              ),
-                              circularStrokeCap: CircularStrokeCap.round,
-                              progressColor: event
-                                          .data!.snapshot.value["level"] >
-                                      75
-                                  ? Colors.red
-                                  : event.data!.snapshot.value["level"] > 50
-                                      ? Colors.yellow
-                                      : event.data!.snapshot.value["level"] >= 0
-                                          ? Colors.green
-                                          : Colors.green,
-                            ))
+                        Expanded(
+                            flex: (100 - dustbinLevel.value)
+                                .toInt(),
+                            child: Container(color: Colors.blue[100])),
+                        Expanded(
+                            flex:dustbinLevel.value,
+                            child: Container(color: Colors.blue)),
                       ],
-                    );
-                  },
+                    ),
+                    Align(
+                        alignment: Alignment.center,
+                        child: CircularPercentIndicator(
+                          radius: width(context) * 0.18,
+                          lineWidth: 10.0,
+                          animation: true,
+                          percent: dustbinLevel.value
+                              .toDouble() /
+                              100,
+                          center: new Text(
+                            dustbinLevel.value.toString() +
+                                "%",
+                            style: new TextStyle(
+                                fontWeight: FontWeight.bold,
+                                fontSize: 20.0),
+                          ),
+                          circularStrokeCap: CircularStrokeCap.round,
+                          progressColor: dustbinLevel.value >
+                              75
+                              ? Colors.red
+                              : dustbinLevel.value > 50
+                              ? Colors.yellow
+                              : dustbinLevel.value >= 0
+                              ? Colors.green
+                              : Colors.green,
+                        ))
+                  ],
                 ),
               ),
             ),
@@ -135,7 +141,7 @@ class _BinScreenState extends State<BinScreen> {
                     borderRadius: BorderRadius.circular(18.0),
                     side: BorderSide(color: Color.fromRGBO(0, 160, 227, 1))),
                 padding: EdgeInsets.all(10.0),
-                primary: Color.fromRGBO(0, 160, 227, 1),
+                backgroundColor: Color.fromRGBO(0, 160, 227, 1),
               ),
               onPressed: () {
                 showDialog(
@@ -259,11 +265,11 @@ class _BinScreenState extends State<BinScreen> {
                     borderRadius: BorderRadius.circular(18.0),
                     side: BorderSide(color: Color.fromRGBO(0, 160, 227, 1))),
                 padding: EdgeInsets.all(10.0),
-                primary: Color.fromRGBO(0, 160, 227, 1),
+                backgroundColor: Color.fromRGBO(0, 160, 227, 1),
               ),
               onPressed: () async {
-                if (await canLaunch(args.url)) {
-                  launch(args.url);
+                if (await canLaunchUrl(Uri.parse(args.url))) {
+                  launchUrl(Uri.parse(args.url));
                 } else {
                   print("Its false");
                 }

@@ -3,7 +3,6 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:smart_dustbin/constants.dart';
 import 'package:smart_dustbin/model/navigate_page.dart';
-import 'package:smart_dustbin/screens/home_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   static const String id = 'splash-screen';
