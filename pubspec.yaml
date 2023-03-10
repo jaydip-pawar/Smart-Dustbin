@@ -23,12 +23,11 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
+  image_picker: ^0.8.7
   provider: ^6.0.5
   firebase_core: ^2.7.0
-
-
-
   firebase_database: ^10.0.14
+  firebase_storage: ^11.0.15
   cloud_firestore: ^4.4.3
   liquid_progress_indicator: ^0.4.0
   percent_indicator: ^4.2.3

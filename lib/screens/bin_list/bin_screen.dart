@@ -35,19 +35,16 @@ class BinScreen extends StatefulWidget {
 }
 
 class _BinScreenState extends State<BinScreen> {
-
   ValueNotifier<int> dustbinLevel = ValueNotifier<int>(0);
 
   void _updateUI(BuildContext context) {
     final _dustyProvider = Provider.of<DustyProvider>(context, listen: false);
-    _dustyProvider
-        .setStatus(dustbinLevel.value);
+    _dustyProvider.setStatus(dustbinLevel.value);
   }
 
   @override
   void didChangeDependencies() {
-
-    dustbinLevel.addListener(()=>_updateUI(context));
+    dustbinLevel.addListener(() => _updateUI(context));
 
     final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
     String path = "Dustbin" + args.number.toString();
@@ -92,11 +89,10 @@ class _BinScreenState extends State<BinScreen> {
                     Column(
                       children: [
                         Expanded(
-                            flex: (100 - dustbinLevel.value)
-                                .toInt(),
+                            flex: (100 - dustbinLevel.value).toInt(),
                             child: Container(color: Colors.blue[100])),
                         Expanded(
-                            flex:dustbinLevel.value,
+                            flex: dustbinLevel.value,
                             child: Container(color: Colors.blue)),
                       ],
                     ),
@@ -106,25 +102,20 @@ class _BinScreenState extends State<BinScreen> {
                           radius: width(context) * 0.18,
                           lineWidth: 10.0,
                           animation: true,
-                          percent: dustbinLevel.value
-                              .toDouble() /
-                              100,
+                          percent: dustbinLevel.value.toDouble() / 100,
                           center: new Text(
-                            dustbinLevel.value.toString() +
-                                "%",
+                            dustbinLevel.value.toString() + "%",
                             style: new TextStyle(
-                                fontWeight: FontWeight.bold,
-                                fontSize: 20.0),
+                                fontWeight: FontWeight.bold, fontSize: 20.0),
                           ),
                           circularStrokeCap: CircularStrokeCap.round,
-                          progressColor: dustbinLevel.value >
-                              75
+                          progressColor: dustbinLevel.value > 75
                               ? Colors.red
                               : dustbinLevel.value > 50
-                              ? Colors.yellow
-                              : dustbinLevel.value >= 0
-                              ? Colors.green
-                              : Colors.green,
+                                  ? Colors.yellow
+                                  : dustbinLevel.value >= 0
+                                      ? Colors.green
+                                      : Colors.green,
                         ))
                   ],
                 ),
@@ -138,10 +129,11 @@ class _BinScreenState extends State<BinScreen> {
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(18.0),
-                    side: BorderSide(color: Color.fromRGBO(0, 160, 227, 1))),
+                  borderRadius: BorderRadius.circular(18.0),
+                  side: BorderSide(color: Color(0xffff5f6d)),
+                ),
                 padding: EdgeInsets.all(10.0),
-                backgroundColor: Color.fromRGBO(0, 160, 227, 1),
+                backgroundColor: Color(0xffff5f6d),
               ),
               onPressed: () {
                 showDialog(
@@ -252,8 +244,10 @@ class _BinScreenState extends State<BinScreen> {
                       );
                     });
               },
-              child: Text("Show Dustbin details",
-                  style: TextStyle(fontSize: 15, color: Colors.white)),
+              child: Text(
+                "Show Dustbin details",
+                style: TextStyle(fontSize: 15, color: Colors.white),
+              ),
             ),
           ),
           Container(
@@ -262,20 +256,17 @@ class _BinScreenState extends State<BinScreen> {
             child: ElevatedButton(
               style: ElevatedButton.styleFrom(
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(18.0),
-                    side: BorderSide(color: Color.fromRGBO(0, 160, 227, 1))),
+                  borderRadius: BorderRadius.circular(18.0),
+                  side: BorderSide(color: Color(0xffff5f6d)),
+                ),
                 padding: EdgeInsets.all(10.0),
-                backgroundColor: Color.fromRGBO(0, 160, 227, 1),
+                backgroundColor: Color(0xffff5f6d),
               ),
-              onPressed: () async {
-                if (await canLaunchUrl(Uri.parse(args.url))) {
-                  launchUrl(Uri.parse(args.url));
-                } else {
-                  print("Its false");
-                }
-              },
-              child: Text("Go To Location",
-                  style: TextStyle(fontSize: 15, color: Colors.white)),
+              onPressed: () async => launchUrl(Uri.parse(args.url)),
+              child: Text(
+                "Go To Location",
+                style: TextStyle(fontSize: 15, color: Colors.white),
+              ),
             ),
           ),
         ],

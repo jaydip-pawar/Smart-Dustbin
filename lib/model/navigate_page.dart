@@ -1,7 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:smart_dustbin/screens/home_screen.dart';
 import 'package:smart_dustbin/screens/login/login_screen.dart';
+import 'package:smart_dustbin/screens/main.dart';
 
 class NavigatePage extends StatefulWidget {
   static const String id = 'navigate-screen';
@@ -18,16 +18,12 @@ class _NavigatePageState extends State<NavigatePage> {
     return StreamBuilder(
       stream: FirebaseAuth.instance.authStateChanges(),
       builder: (ctx, userSnapshot) {
-        print("Stream Builder Called");
         if (userSnapshot.connectionState == ConnectionState.waiting) {
-          print("Stream Builder loading");
           return const CircularProgressIndicator();
         }
         if (userSnapshot.hasData) {
-          print("Stream Builder hasdata");
-          return const HomeScreen();
+          return const MainScreen();
         }
-        print("Stream Builder before data");
         return const LoginScreen();
       },
     );
