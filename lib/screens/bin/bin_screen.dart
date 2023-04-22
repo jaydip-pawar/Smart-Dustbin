@@ -262,7 +262,12 @@ class _BinScreenState extends State<BinScreen> {
                 padding: EdgeInsets.all(10.0),
                 backgroundColor: Color(0xffff5f6d),
               ),
-              onPressed: () async => launchUrl(Uri.parse(args.url)),
+                onPressed: () async {
+                  launchUrl(
+                    Uri.parse(args.url),
+                    mode: LaunchMode.externalApplication,
+                  );
+                },
               child: Text(
                 "Go To Location",
                 style: TextStyle(fontSize: 15, color: Colors.white),

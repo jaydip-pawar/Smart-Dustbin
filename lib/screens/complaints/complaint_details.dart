@@ -1,12 +1,17 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:smart_dustbin/constants.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ScreenArguments {
   final String title;
   final String description;
   final String location;
   final String image;
+  final GeoPoint position;
 
-  ScreenArguments(this.title, this.description, this.location, this.image);
+  ScreenArguments(
+      this.title, this.description, this.location, this.image, this.position);
 }
 
 class ComplaintDetails extends StatelessWidget {
@@ -17,6 +22,11 @@ class ComplaintDetails extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final args = ModalRoute.of(context)!.settings.arguments as ScreenArguments;
+
+    double lat = args.position.latitude;
+    double lon = args.position.longitude;
+    final String url = "https://maps.google.com/?q=$lat,$lon";
+
     return Scaffold(
       appBar: AppBar(
         centerTitle: true,
@@ -28,8 +38,7 @@ class ComplaintDetails extends StatelessWidget {
         iconTheme: IconThemeData(color: Colors.black),
         elevation: 2.0,
       ),
-      body: Column(
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+      body: Stack(
         children: [
           Stack(
             children: [
@@ -58,7 +67,7 @@ class ComplaintDetails extends StatelessWidget {
             ],
           ),
           Padding(
-            padding: EdgeInsets.all(16),
+            padding: EdgeInsets.only(left: 16, right: 16, bottom: 16, top: 220),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -74,6 +83,34 @@ class ComplaintDetails extends StatelessWidget {
                 SizedBox(height: 16),
                 Text(args.description, style: TextStyle(fontSize: 16)),
               ],
+            ),
+          ),
+          Positioned(
+            bottom: 20,
+            child: Container(
+              margin: EdgeInsets.all(15),
+              height: 50.0,
+              width: width(context) - 30,
+              child: ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(18.0),
+                    side: BorderSide(color: Color(0xffff5f6d)),
+                  ),
+                  padding: EdgeInsets.all(10.0),
+                  backgroundColor: Color(0xffff5f6d),
+                ),
+                onPressed: () async {
+                  launchUrl(
+                    Uri.parse(url),
+                    mode: LaunchMode.externalApplication,
+                  );
+                },
+                child: Text(
+                  "Go  to  Location",
+                  style: TextStyle(fontSize: 15, color: Colors.white),
+                ),
+              ),
             ),
           ),
         ],

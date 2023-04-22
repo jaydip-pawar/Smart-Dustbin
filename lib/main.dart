@@ -4,7 +4,6 @@ import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_dustbin/constants.dart';
 import 'package:smart_dustbin/provider/authentication_provider.dart';
-import 'package:smart_dustbin/screens/bin_list/bin_list.dart';
 import 'package:smart_dustbin/provider/dusty_provider.dart';
 import 'package:smart_dustbin/screens/splash_screen.dart';
 

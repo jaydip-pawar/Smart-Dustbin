@@ -3,7 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_dustbin/provider/dusty_provider.dart';
-import 'package:smart_dustbin/screens/bin_list/bin_screen.dart';
+import 'package:smart_dustbin/screens/bin/bin_screen.dart';
 
 class BinList extends StatelessWidget {
   static const String id = 'bin-list';

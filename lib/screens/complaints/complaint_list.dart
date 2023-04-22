@@ -35,6 +35,7 @@ class ComplaintList extends StatelessWidget {
                         snapshot.data!.docs[index].get("description"),
                         snapshot.data!.docs[index].get("location"),
                         snapshot.data!.docs[index].get("image"),
+                        snapshot.data!.docs[index].get("position"),
                       ),
                     );
                   },

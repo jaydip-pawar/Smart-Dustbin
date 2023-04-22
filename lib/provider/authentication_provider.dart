@@ -3,8 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_easyloading/flutter_easyloading.dart';
 import 'package:smart_dustbin/model/dialog_box.dart';
-import 'package:smart_dustbin/screens/bin_list/bin_list.dart';
 import 'package:smart_dustbin/screens/login/login_screen.dart';
+import 'package:smart_dustbin/screens/main.dart';
 
 class AuthenticationProvider with ChangeNotifier {
   final firestoreInstance = FirebaseFirestore.instance;
@@ -15,7 +15,7 @@ class AuthenticationProvider with ChangeNotifier {
       await FirebaseAuth.instance
           .signInWithEmailAndPassword(email: email, password: password);
       Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (_) => const BinList()));
+          MaterialPageRoute(builder: (_) => const MainScreen()));
       EasyLoading.showSuccess("Login Successful");
     } on FirebaseAuthException catch (e) {
       if (e.code == 'user-not-found') {
@@ -50,7 +50,7 @@ class AuthenticationProvider with ChangeNotifier {
       await FirebaseAuth.instance
           .createUserWithEmailAndPassword(email: email, password: password);
       Navigator.pushReplacement(context,
-          MaterialPageRoute(builder: (_) => const BinList()));
+          MaterialPageRoute(builder: (_) => const MainScreen()));
       EasyLoading.showSuccess("Signup Successful");
     } on FirebaseAuthException catch (e) {
       if (e.code == 'email-already-in-use') {

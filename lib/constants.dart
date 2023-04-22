@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:smart_dustbin/model/navigate_page.dart';
-import 'package:smart_dustbin/screens/bin_list/bin_screen.dart';
-import 'package:smart_dustbin/screens/bin_list/bin_list.dart';
+import 'package:smart_dustbin/screens/bin/bin_screen.dart';
+import 'package:smart_dustbin/screens/bin/bin_list.dart';
 import 'package:smart_dustbin/screens/complaints/add_complaint.dart';
 import 'package:smart_dustbin/screens/complaints/complaint_details.dart';
 import 'package:smart_dustbin/screens/complaints/complaint_list.dart';

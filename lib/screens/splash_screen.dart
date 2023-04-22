@@ -29,9 +29,6 @@ class _SplashScreenState extends State<SplashScreen> {
       body: Stack(
         fit: StackFit.expand,
         children: [
-          Container(
-            decoration: BoxDecoration(color: Colors.green),
-          ),
           Column(
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
@@ -42,9 +39,9 @@ class _SplashScreenState extends State<SplashScreen> {
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       SizedBox(
-                        height: height(context) * 0.3,
-                        width: width(context) * 0.3,
-                        // child: Image.asset('assets/images/logo.png'),
+                        height: height(context) * 0.5,
+                        width: width(context) * 0.5,
+                        child: Image.asset('assets/splash.png'),
                       ),
                     ],
                   ),

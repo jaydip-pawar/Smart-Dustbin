@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:smart_dustbin/provider/authentication_provider.dart';
-import 'package:smart_dustbin/screens/bin_list/bin_list.dart';
+import 'package:smart_dustbin/screens/bin/bin_list.dart';
 import 'package:smart_dustbin/screens/complaints/complaint_list.dart';
 
 class MainScreen extends StatefulWidget {
